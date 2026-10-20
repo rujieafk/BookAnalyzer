@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Book Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="eyebrow">INNODATA <span aria-hidden="true">/</span> DOCUMENT INTELLIGENCE</p>
+        <h1>Legal text analysis</h1>
+        <p class="lede">
+          Turn complex legal text into clear, actionable insight.
+        </p>
+      </header>
+
+      <!-- Submit back to this page and show the result heading afterward. -->
+      <form id="analyze-form" method="post" action="#result-title" enctype="multipart/form-data">
+        <div class="field-heading">
+          <label for="input-text">Your text</label>
+          <span class="field-hint">Paste content to get started</span>
+        </div>
+        <textarea
+          id="input-text"
+          name="input_text"
+          rows="10"
+          placeholder="Paste legal text to classify…"
+        >{{ input_text }}</textarea>
+
+        <p class="input-divider" aria-hidden="true">OR</p>
+
+        <div class="field-heading">
+          <label for="xml-file">Upload an XML file</label>
+          <span class="field-hint">Choose a .xml file</span>
+        </div>
+        <input id="xml-file" name="xml_file" type="file" accept=".xml,application/xml,text/xml" />
+
+        <button id="run-button" type="submit">
+          Analyze
+          <span aria-hidden="true">→</span>
+        </button>
+      </form>
+
+      <section class="result-panel" aria-labelledby="result-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">ANALYSIS</p>
+            <h2 id="result-title">Result</h2>
+          </div>
+          <span class="status" data-state="{{ 'result' if result else 'idle' }}">
+            {{ "Complete" if result else "Waiting" }}
+          </span>
+        </div>
+        <pre id="output" data-state="{{ 'result' if result else 'idle' }}" aria-live="polite">{{ result or "Your analysis will appear here once you submit text." }}</pre>
+      </section>
+
+      <footer>Thoughtful analysis for better-informed decisions.</footer>
+    </main>
+  </body>
+</html>
